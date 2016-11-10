@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>setState</title>
+    <script src="http://static.runoob.com/assets/react/react-0.14.7/build/react.min.js"></script>
+    <script src="http://static.runoob.com/assets/react/react-0.14.7/build/react-dom.min.js"></script>
+    <script src="http://static.runoob.com/assets/react/browser.min.js"></script>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/babel">
+    var Counter = React.createClass({
+        getInitialState: function () {
+            return {clickCount: 0};
+        },
+
+        handleClick: function () {
+            this.setState(function (state) {
+                return {clickCount: state.clickCount + 1};
+            })
+        },
+
+        render: function () {
+            return (
+                <h2 onClick={this.handleClick}>Please Click me!Click times:{this.state.clickCount}</h2>
+            );
+        }
+    });
+
+    React.render(
+        <Counter/>,
+        document.getElementById('example')
+    );
+</script>
+
+</body>
+</html>
+

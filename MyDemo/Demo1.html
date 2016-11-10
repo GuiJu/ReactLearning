@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>React留言版</title>
+    <script src="http://static.runoob.com/assets/react/react-0.14.7/build/react.min.js"></script>
+    <script src="http://static.runoob.com/assets/react/react-0.14.7/build/react-dom.min.js"></script>
+    <script src="http://static.runoob.com/assets/react/browser.min.js"></script>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4" id="board"></div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+<script type="text/babel">
+
+    var Label = React.createClass({
+        render: function () {
+            return (
+                <label>{this.props.labelName}</label>
+            );
+        }
+    });
+
+    var Input = React.createClass({
+        onUserInput: function (event) {
+            this.props.onUserInput(event.target.value)
+        },
+
+        render: function () {
+            return (
+                <input
+                    type="text"
+                    className="form-control"
+                    id={this.props.id}
+                    placeholder={this.props.placeholder}
+                    onChange={this.onUserInput}
+                />
+            );
+        }
+    });
+
+    var Output = React.createClass({
+        render: function () {
+            return (
+                <input
+                    type="text"
+                    className="form-control"
+                    id={this.props.id}
+                    placeholder={this.props.placeholder}
+                    value={this.props.userText}
+                />
+            );
+        }
+    });
+
+    var Button = React.createClass({
+        render: function () {
+            return (
+                <button
+                    type="submit"
+                    className="btn btn-default"
+                    onChange={this.onUserInput}>
+                    Submit
+                </button>
+            );
+        }
+    });
+
+
+    var MainForm = React.createClass({
+        getInitialState: function () {
+          return {
+            userText: "No message"
+          };
+        },
+
+        handleUserInput: function (userText) {
+            this.setState({
+                userText: userText
+            });
+        },
+
+        render: function () {
+            return (
+                <form role="form">
+                    <div className="form-group">
+                        <Label labelName={"Your message"}/>
+                        <Output
+                            id={"message"}
+                            placeholder={"your message"}
+                            userText={this.state.userText}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <Label labelName={"Your input"}/>
+                        <Input
+                            id={"input"}
+                            placeholder={"your input"}
+                            onUserInput={this.handleUserInput}
+                        />
+                    </div>
+                    <Button/>
+                </form>
+            );
+        }
+    });
+
+    ReactDOM.render(<MainForm/>, document.getElementById("board"));
+</script>
+</body>
+</html>

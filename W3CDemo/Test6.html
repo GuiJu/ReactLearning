@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Props and State</title>
+    <script src="http://static.runoob.com/assets/react/react-0.14.7/build/react.min.js"></script>
+    <script src="http://static.runoob.com/assets/react/react-0.14.7/build/react-dom.min.js"></script>
+    <script src="http://static.runoob.com/assets/react/browser.min.js"></script>
+</head>
+<body>
+<div id="example"></div>
+
+<!--state大都定义于父组件，可以改变而props不可变大都用于子组件来获取父组件传递过来的数据-->
+<script type="text/babel">
+    var WebSite = React.createClass({
+        getInitalState: function () {
+          return {
+              name: "菜鸟教程",
+              site: "http://www.runoob.com"
+          }
+        },
+
+        getDefaultProps: function () {
+            return {
+                content: "None"
+            }
+        },
+
+        render: function () {
+            return (
+                <div>
+                   <Name name={this.state.name} />
+                   <Link site={this.state.site} />
+                </div>
+            );
+        },
+    });
+
+    var Name = React.createClass({
+        render: function () {
+            return (
+              <h1>{this.props.name}</h1>
+            );
+        }
+    });
+
+    var Link = React.createClass({
+        render: function () {
+            return (
+                <a href="this.props.site">
+                    {this.props.site}
+                </a>
+            );
+        }
+    });
+
+    ReactDOM.render(
+        <WebSite/>,
+        document.getElementById('example')
+    );
+</script>
+</body>
+</html>

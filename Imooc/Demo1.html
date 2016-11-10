@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ReactDemo</title>
+    <script src="http://static.runoob.com/assets/react/react-0.14.7/build/react.min.js"></script>
+    <script src="http://static.runoob.com/assets/react/react-0.14.7/build/react-dom.min.js"></script>
+    <script src="http://static.runoob.com/assets/react/browser.min.js"></script>
+</head>
+<body>
+
+
+<div id="container">
+
+</div>
+<!--
+    LifeCycle: getInitialState -> componentWillMount -> render -> componentDidMount
+-->
+<script type="text/babel">
+    var Hello = React.createClass({
+        getInitialState: function () {
+            alert("init");
+            return {
+                opacity: 1.0,
+                fontSize: '12px',
+                color: '#F00'
+            };
+        },
+
+        render: function () {
+            return (
+                <div style={{opacity: this.state.opacity, fontSize: this.state.fontSize,color: this.state.color}}>Hello World</div>
+            );
+        },
+
+        componentWillMount: function () {
+            alert("will");
+        },
+        componentDidMount: function () {
+            var _self = this;
+            window.setTimeout(function () {
+                _self.setState({
+                    opacity: 0.5,
+                    fontSize: '44px',
+                    color: '#0F0'
+                });
+            }, 3000);
+        },
+    });
+
+    ReactDOM.render(<Hello/>, document.getElementById("container"));
+</script>
+</body>
+</html>
