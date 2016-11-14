@@ -1,25 +1,52 @@
 /**
  * Created by jutal on 16-11-8.
  */
-var INFOS = [
-  {date: "2016-11-8", content: "content1"},
-  {date: "2016-11-9", content: "content2"},
-  {date: "2016-11-10", content: "content3"},
-  {date: "2016-11-11", content: "content4"}
-];
+/*var INFOS = [
+ {date: '2016-11-8', content: 'content1'},
+ {date: '2016-11-9', content: 'content2'}
+ ];*/
 
 /*整个App*/
 var App = React.createClass({
-  render: function () {
-    return (
-      <div className="container-fluid">
-        <NavBar/>
-        <Modal/>
-        <PanelList infos={INFOS}/>
-      </div>
-    );
-  }
-});
+    getInitialState: function () {
+      return {
+        INFOS: [{date: '2016-11-8', content: 'content1'},{date: '2016-11-9', content: 'content2'}]
+      };
+    },
+
+    componentDidMount: function () {
+      var xmlhttp = new XMLHttpRequest();
+      var DataGet;
+      xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          DataGet = xmlhttp.responseText;
+          DataGet = eval(DataGet);
+          for (var i = 0; i < DataGet.length; i++){
+            DataGet[i].date = (new Date(DataGet[i].date)).toDateString();
+          }
+        }
+      }
+      xmlhttp.open("GET", "http://localhost:8080/getData", false);
+      xmlhttp.send();
+      if (this.isMounted()) {
+        this.setState({
+          INFOS: DataGet
+        });
+      }
+      alert("a");
+    },
+
+    render: function () {
+      return (
+        <div className="container-fluid">
+          <NavBar/>
+          <Modal/>
+          <PanelList infos={this.state.INFOS}/>
+        </div>
+      );
+    }
+  })
+  ;
 
 /*面板主body组件*/
 var PanelBody = React.createClass({
@@ -37,7 +64,7 @@ var Panel = React.createClass({
   render: function () {
     return (
       <div className="row">
-        <div className="col-md-8 col-md-offset-2">
+        <div className="col-md-6">
           <div className="panel panel-success">
             <div className="panel-heading">{this.props.heading}</div>
             <PanelBody content={this.props.content}/>
@@ -50,6 +77,7 @@ var Panel = React.createClass({
 
 /*面板列表组*/
 var PanelList = React.createClass({
+
   render: function () {
     var panels = [];
     this.props.infos.forEach(function (info) {
@@ -106,7 +134,8 @@ var NavBarCollapse = React.createClass({
           </div>
           <button type="submit" className="btn btn-default">Submit</button>
         </form>
-          <button className="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#mainModal">Add</button>
+        <button className="btn btn-default navbar-btn navbar-right" data-toggle="modal" data-target="#mainModal">Add
+        </button>
       </div>
     );
   }
@@ -116,12 +145,14 @@ var NavBarCollapse = React.createClass({
 var Modal = React.createClass({
   render: function () {
     return (
-      <div className="modal fade" id="mainModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div className="modal fade" id="mainModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+           aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
 
             <div className="modal-header">
-              <button type="button" className="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span className="sr-only">Close</span></button>
+              <button type="button" className="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                className="sr-only">Close</span></button>
               <h4 className="modal-title">Today's summary</h4>
             </div>
 
